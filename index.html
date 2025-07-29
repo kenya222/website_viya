@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Untuk Viya – Dari Seluruh Dunia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root{ --pink:#ff6b81; --pale:#fff0f3; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:'Poppins',sans-serif;
+      background:linear-gradient(135deg,#fad0c4,#ff9a9e);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#333;
+      padding:20px;
+    }
+    .card{
+      background:#fff;
+      border-radius:20px;
+      max-width:480px;
+      width:100%;
+      padding:40px 30px;
+      box-shadow:0 10px 25px rgba(0,0,0,.15);
+      text-align:center;
+    }
+    h1{
+      font-family:'Dancing Script',cursive;
+      font-size:2.8em;
+      color:var(--pink);
+      margin-bottom:10px;
+    }
+    p{margin-bottom:20px;line-height:1.7}
+    .btn{
+      background:var(--pink);
+      color:#fff;
+      border:none;
+      padding:12px 30px;
+      border-radius:50px;
+      font-size:1em;
+      cursor:pointer;
+      transition:.3s;
+    }
+    .btn:hover{background:#ff4757;transform:scale(1.05)}
+    textarea{
+      width:100%;
+      min-height:80px;
+      resize:vertical;
+      border:1px solid #ddd;
+      border-radius:10px;
+      padding:10px;
+      font-family:'Poppins',sans-serif;
+      font-size:.95em;
+      margin-bottom:15px;
+    }
+    #wishlist{
+      margin-top:25px;
+      text-align:left;
+      max-height:240px;
+      overflow-y:auto;
+    }
+    .wish{
+      background:var(--pale);
+      padding:10px 15px;
+      border-radius:12px;
+      margin-bottom:8px;
+      font-size:.9em;
+      word-break:break-word;
+    }
+    footer{
+      margin-top:25px;
+      font-size:.75em;
+      color:#888;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Halo Viya ♥</h1>
+    <p>
+      Halo semua! Jika kamu membuka halaman ini, tolong bantu kami buat hari Viya makin spesial
+      dengan meninggalkan satu baris pesan kecil di bawah.
+    </p>
+
+    <textarea id="message" placeholder="Tulis pesan untuk Viya..."></textarea>
+    <button class="btn" onclick="sendWish()">Kirim Pesan</button>
+
+    <!-- Daftar pesan -->
+    <div id="wishlist"></div>
+
+    <footer>
+      Dibuat dengan cinta oleh seseorang yang menyayangi Viya.
+    </footer>
+  </div>
+
+  <script>
+    // Muat pesan dari localStorage saat halaman dibuka
+    loadWishes();
+
+    function sendWish(){
+      const txt = document.getElementById('message').value.trim();
+      if(!txt) return alert('Pesan tidak boleh kosong ya :)');
+      const wishes = JSON.parse(localStorage.getItem('viyaWishes') || '[]');
+      wishes.push(txt);
+      localStorage.setItem('viyaWishes', JSON.stringify(wishes));
+      document.getElementById('message').value='';
+      loadWishes();
+    }
+
+    function loadWishes(){
+      const container = document.getElementById('wishlist');
+      const wishes = JSON.parse(localStorage.getItem('viyaWishes') || '[]');
+      container.innerHTML = wishes.length
+        ? wishes.map(w => `<div class="wish">${w}</div>`).join('')
+        : '<p style="text-align:center;color:#888">Belum ada pesan, jadilah yang pertama!</p>';
+    }
+  </script>
+</body>
+</html>
